@@ -1,0 +1,28 @@
+# Exercice 1 Réalisation d’un outil pour dessiner des réseaux
+
+Vous devez réaliser un logiciel permettant de dessiner des architectures réseau de façon
+simple et élégante. 
+Le cahier des charges imposé par le client indique que votre logiciel
+doit permettre de représenter :
+- des switchs
+- des clients (PC ou téléphone)
+- des routeurs
+
+Les différents éléments peuvent être présents de multiple fois dans l’interface. 
+La création d’un nouvel item pourra se faire par un raccourci clavier ( C client, S switch, R routeur, par exemple ) ou par toolbar / menu, et il doit être possible de déplacer ou d’effacer les items à la souris.
+
+Un clic droit sur un item doit permettre d’en modifier les propriétés :
+- Nom
+- Icône
+
+Enfin, il doit être possible de dessiner des traits sur le schémas afin de représenter les liens réseau.
+
+# Exercice 2 Des traits bien droits !
+Faites en sorte que les lignes ne puissent être que horizontales ou verticales lorsque
+l’utilisateur maintient la touche CTRL enfoncée.
+
+# Exercice 3 Un client exigeant ...
+Le client, satisfait par votre travail précédant, demande à ce que vous alliez plus loin. Il
+souhaite maintenant que les items aient des ports sur lesquels votre souris sera aimantée
+lorsque vous dessinez des traits. Le nombre de ports des routeurs et des switchs sera
+paramétrable de 1 à 4. Les clients, eux, auront toujours un seul port
