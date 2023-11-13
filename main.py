@@ -45,7 +45,8 @@ class WishPacketTracer:
 
     def drag_item(self, event):
         if self.current_item:
-            dx, dy = event.x - self.canvas.coords(self.current_item)[0], event.y - self.canvas.coords(self.current_item)[1]
+            dx = event.x - self.canvas.coords(self.current_item)[0]
+            dy = event.y - self.canvas.coords(self.current_item)[1]
             self.canvas.move(self.current_item, dx, dy)
 
     def load_and_resize_image(self, filename, width, height):
