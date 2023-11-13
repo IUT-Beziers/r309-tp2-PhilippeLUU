@@ -27,8 +27,11 @@ class WishPacketTracer:
         self.button_client = tk.Button(self.toolbar, image=self.image_pc, command=self.create_client)
         self.button_client.pack(side=tk.LEFT)
 
+        # Evènements souris
         self.canvas.bind("<Button-1>", self.left_click)
         self.canvas.bind("<B1-Motion>", self.drag_item)
+        # Evènements clavier
+        self.root.bind("<Key>", self.key_pressed)
 
     def create_client(self):
         item = self.canvas.create_image(100, 100, image=self.image_pc, tags="client")
@@ -54,6 +57,15 @@ class WishPacketTracer:
         image = image.resize((width, height))
         photo = ImageTk.PhotoImage(image)
         return photo
+
+    def key_pressed(self, event):
+        key = event.char.upper()
+        if key == "C":
+            self.create_client()
+        elif key == "S":
+            self.create_switch()
+        elif key == "R":
+            self.create_router()
 
 root = tk.Tk()
 app = WishPacketTracer(root)
