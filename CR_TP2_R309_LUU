@@ -17,6 +17,31 @@ Un clic droit sur un item doit permettre d’en modifier les propriétés :
 
 Enfin, il doit être possible de dessiner des traits sur le schémas afin de représenter les liens réseau.
 
+
+```Python
+import tkinter as tk
+from tkinter import simpledialog
+from PIL import Image, ImageTk
+
+class WishPacketTracer:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Wish Packet Tracer")
+
+        # 1) 
+        self.canvas = tk.Canvas(root, bg="ivory", width=800, height=600)
+        self.canvas.pack(expand=tk.YES, fill=tk.BOTH)
+
+# 1) 
+root = tk.Tk()
+app = WishPacketTracer(root)
+root.mainloop()
+
+```
+J'ai dans mon premier commit, créer une classe qui permettra d'instancier les objets de l'application car il doivent être présents plusieurs fois en même temps dans la fenêtre.
+A la fin de mon programme, je crée une fenêtre qui s'appelle root et à laquelle je créer une instance de la classe "WishPacketTracer".
+Et donc le programme va créer un canvas basique de 800x600 qui va s'étendre càd prendre la place dans tout son espace (en l'occurence la fenêtre) et doit s'élargir horizontalement et verticalement à la fois.
+
 # Exercice 2 Des traits bien droits !
 Faites en sorte que les lignes ne puissent être que horizontales ou verticales lorsque
 l’utilisateur maintient la touche CTRL enfoncée.
