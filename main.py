@@ -10,10 +10,6 @@ class WishPacketTracer:
         self.canvas = tk.Canvas(root, bg="ivory", width=800, height=600)
         self.canvas.pack(expand=tk.YES, fill=tk.BOTH)
 
-        self.items = []  # Liste pour stocker les éléments dessinés
-        self.current_item = None  # Stocke l'élément actuellement sélectionné
-
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = WishPacketTracer(root)
