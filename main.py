@@ -10,9 +10,6 @@ class WishPacketTracer:
         self.canvas = tk.Canvas(root, bg="ivory", width=800, height=600)
         self.canvas.pack(expand=tk.YES, fill=tk.BOTH)
 
-        self.items = []  # Liste pour stocker les éléments dessinés
-        self.current_item = None  # Stocke l'élément actuellement sélectionné
-
         # Barre d'outils
         self.toolbar = tk.Frame(root)
         self.toolbar.pack(side=tk.LEFT, fill=tk.Y)
@@ -30,15 +27,27 @@ class WishPacketTracer:
         self.button_client = tk.Button(self.toolbar, image=self.image_pc, command=self.create_client)
         self.button_client.pack(side=tk.LEFT)
 
+        self.canvas.bind("<Button-1>", self.left_click)
+        self.canvas.bind("<B1-Motion>", self.drag_item)
+
     def create_client(self):
         item = self.canvas.create_image(100, 100, image=self.image_pc, tags="client")
+
     def create_switch(self):
         item = self.canvas.create_image(200, 200, image=self.image_switch, tags="switch")
-    
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
-    
-   
+
+    def left_click(self, event):
+        item = self.canvas.find_closest(event.x, event.y)
+        if item:
+            self.current_item = item[0]
+
+    def drag_item(self, event):
+        if self.current_item:
+            dx, dy = event.x - self.canvas.coords(self.current_item)[0], event.y - self.canvas.coords(self.current_item)[1]
+            self.canvas.move(self.current_item, dx, dy)
+
     def load_and_resize_image(self, filename, width, height):
         image = Image.open(filename)
         image = image.resize((width, height))
