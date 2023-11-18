@@ -34,6 +34,7 @@ class WishPacketTracer:
         # Menu contextuel
         self.context_menu = tk.Menu(root, tearoff=0)
         self.context_menu.add_command(label="Modifier les propriétés", command=self.edit_proprietes)
+        self.context_menu.add_command(label="Supprimer", command=self.delete_item)
 
 
         # Evènements souris
@@ -99,6 +100,12 @@ class WishPacketTracer:
             self.create_switch()
         elif key == "R":
             self.create_router()
+
+    def delete_item(self):
+        if self.current_item:
+            item = next(x for x in self.items if x["item"] == self.current_item)
+            self.items.remove(item)
+            self.canvas.delete(self.current_item)
 
 root = tk.Tk()
 app = WishPacketTracer(root)
