@@ -31,11 +31,19 @@ class WishPacketTracer:
         self.button_client = tk.Button(self.toolbar, image=self.image_pc, command=self.create_client)
         self.button_client.pack(side=tk.LEFT)
 
+        # Menu contextuel
+        self.context_menu = tk.Menu(root, tearoff=0)
+        self.context_menu.add_command(label="Modifier les propriétés", command=self.edit_proprietes)
+
+
         # Evènements souris
         self.canvas.bind("<Button-1>", self.left_click)
+        self.canvas.bind("<Button-3>", self.right_click)
         self.canvas.bind("<B1-Motion>", self.drag_item)
         # Evènements clavier
         self.root.bind("<Key>", self.key_pressed)
+
+        
 
     def create_client(self):
         item = self.canvas.create_image(100, 100, image=self.image_pc, tags="client")
@@ -48,12 +56,28 @@ class WishPacketTracer:
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
         self.items.append({"item": item, "type": "router", "properties": {"name": "Router", "icon": "R"}})
-        print(self.items)
+        
 
     def left_click(self, event):
         item = self.canvas.find_closest(event.x, event.y)
         if item:
             self.current_item = item[0]
+
+    def right_click(self, event):
+        item = self.canvas.find_closest(event.x, event.y)
+        print(item)
+        if item:
+            self.current_item = item[0]
+            self.context_menu.post(event.x_root, event.y_root)
+
+    def edit_proprietes(self):
+        if self.current_item:
+            item_type = self.canvas.gettags(self.current_item)[0]
+            item = next(x for x in self.items if x["item"] == self.current_item)
+            new_name = simpledialog.askstring("Modifier les propriétés", "Nouveau nom:")
+            if new_name:
+                item["properties"]["name"] = new_name
+                self.canvas.itemconfig(self.current_item, text=new_name)
 
     def drag_item(self, event):
         if self.current_item:
