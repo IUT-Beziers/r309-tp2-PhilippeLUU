@@ -56,6 +56,7 @@ class WishPacketTracer:
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
         self.items.append({"item": item, "type": "router", "proprietes": {"name": "Router", "icon": "R"}})
+    
         
 
     def left_click(self, event):
@@ -71,10 +72,8 @@ class WishPacketTracer:
 
     def edit_proprietes(self):
         if self.current_item:
-            print(self.current_item)
             item_type = self.canvas.gettags(self.current_item)[0]
-            print(item_type)
-            item = next(x for x in self.items if x["item"] == self.current_item)
+            item = next(x for x in self.items if x["item"] == self.current_item )
             old_name=item["proprietes"]["name"]
             new_name = simpledialog.askstring("Modifier les propriétés", "Nouveau nom:", initialvalue=old_name)
             if new_name:
