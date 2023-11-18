@@ -74,6 +74,7 @@ class WishPacketTracer:
     def edit_proprietes(self):
         if self.current_item:
             item_type = self.canvas.gettags(self.current_item)[0]
+            print(self.items)
             item = next(x for x in self.items if x["item"] == self.current_item )
             old_name=item["proprietes"]["name"]
             new_name = simpledialog.askstring("Modifier les propriétés", "Nouveau nom:", initialvalue=old_name)
