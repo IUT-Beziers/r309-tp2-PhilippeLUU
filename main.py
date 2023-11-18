@@ -10,6 +10,10 @@ class WishPacketTracer:
         self.canvas = tk.Canvas(root, bg="ivory", width=800, height=600)
         self.canvas.pack(expand=tk.YES, fill=tk.BOTH)
 
+        self.items = []  # Liste pour stocker les éléments dessinés
+        self.current_item = None  # Stocke l'élément actuellement sélectionné
+
+
         # Barre d'outils
         self.toolbar = tk.Frame(root)
         self.toolbar.pack(side=tk.LEFT, fill=tk.Y)
@@ -35,11 +39,16 @@ class WishPacketTracer:
 
     def create_client(self):
         item = self.canvas.create_image(100, 100, image=self.image_pc, tags="client")
+        self.items.append({"item": item, "type": "client", "proprietes": {"name": "Client", "icon": "C"}})
 
     def create_switch(self):
         item = self.canvas.create_image(200, 200, image=self.image_switch, tags="switch")
+        self.items.append({"item": item, "type": "switch", "properties": {"name": "Switch", "icon": "S"}})
+
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
+        self.items.append({"item": item, "type": "router", "properties": {"name": "Router", "icon": "R"}})
+        print(self.items)
 
     def left_click(self, event):
         item = self.canvas.find_closest(event.x, event.y)
