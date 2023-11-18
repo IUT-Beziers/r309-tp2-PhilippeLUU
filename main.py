@@ -51,11 +51,11 @@ class WishPacketTracer:
 
     def create_switch(self):
         item = self.canvas.create_image(200, 200, image=self.image_switch, tags="switch")
-        self.items.append({"item": item, "type": "switch", "properties": {"name": "Switch", "icon": "S"}})
+        self.items.append({"item": item, "type": "switch", "proprietes": {"name": "Switch", "icon": "S"}})
 
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
-        self.items.append({"item": item, "type": "router", "properties": {"name": "Router", "icon": "R"}})
+        self.items.append({"item": item, "type": "router", "proprietes": {"name": "Router", "icon": "R"}})
         
 
     def left_click(self, event):
@@ -65,19 +65,20 @@ class WishPacketTracer:
 
     def right_click(self, event):
         item = self.canvas.find_closest(event.x, event.y)
-        print(item)
         if item:
             self.current_item = item[0]
             self.context_menu.post(event.x_root, event.y_root)
 
     def edit_proprietes(self):
         if self.current_item:
+            print(self.current_item)
             item_type = self.canvas.gettags(self.current_item)[0]
+            print(item_type)
             item = next(x for x in self.items if x["item"] == self.current_item)
-            new_name = simpledialog.askstring("Modifier les propriétés", "Nouveau nom:")
+            old_name=item["proprietes"]["name"]
+            new_name = simpledialog.askstring("Modifier les propriétés", "Nouveau nom:", initialvalue=old_name)
             if new_name:
-                item["properties"]["name"] = new_name
-                self.canvas.itemconfig(self.current_item, text=new_name)
+                item["proprietes"]["name"] = new_name
 
     def drag_item(self, event):
         if self.current_item:
