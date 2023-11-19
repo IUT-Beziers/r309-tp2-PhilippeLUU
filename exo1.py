@@ -15,6 +15,10 @@ class WishPacketTracer:
         self.current_item = None  # Stocke l'élément actuellement sélectionné
         self.item_images = {}
 
+        self.nb_router=0
+        self.nb_switch=0
+        self.nb_client=0
+
 
         # Barre d'outils
         self.toolbar = tk.Frame(root)
@@ -51,16 +55,18 @@ class WishPacketTracer:
 
     def create_client(self):
         item = self.canvas.create_image(100, 100, image=self.image_pc, tags="client")
-        self.items.append({"item": item, "type": "client", "proprietes": {"name": "Client"}})
+        self.items.append({"item": item, "type": "client", "proprietes": {"name": f"Client{self.nb_client}"}})
+        self.nb_client+=1
 
     def create_switch(self):
         item = self.canvas.create_image(200, 200, image=self.image_switch, tags="switch")
-        self.items.append({"item": item, "type": "switch", "proprietes": {"name": "Switch"}})
+        self.items.append({"item": item, "type": "switch", "proprietes": {"name": f"Switch{self.nb_switch}"}})
+        self.nb_switch+=1
 
     def create_router(self):
         item = self.canvas.create_image(300, 300, image=self.image_router, tags="router")
-        self.items.append({"item": item, "type": "router", "proprietes": {"name": "Router"}})
-    
+        self.items.append({"item": item, "type": "router", "proprietes": {"name": f"Router{self.nb_router}"}})
+        self.nb_router+=1
         
 
     def left_click(self, event):
