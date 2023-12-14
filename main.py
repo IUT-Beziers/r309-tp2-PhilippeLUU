@@ -56,8 +56,11 @@ class WishPacketTracer:
         self.canvas.bind("<Button-2>", self.middle_click)
         # Evènements clavier
         self.root.bind("<Key>", self.key_pressed)
-        self.root.bind("<Control-Key>", self.ctrl_key_pressed)
-        self.root.bind("<Control-KeyRelease>", self.ctrl_key_released)
+        self.root.bind("<Control-Button-4>", self.ctrl_wheel)
+        self.root.bind("<Control-Button-5>", self.ctrl_wheel)
+        self.root.bind("<Control-KeyPress-C>", self.ctrl_pressed_event)
+        self.root.bind("<Control-KeyRelease-C>", self.ctrl_released_event)
+
         
 
     def create_client(self):
@@ -78,22 +81,53 @@ class WishPacketTracer:
     def middle_click(self, event):
         item = self.canvas.find_closest(event.x, event.y)
         if item:
-            if self.ctrl_pressed:  # Vérifier si la touche CTRL est enfoncée
-                if not self.start_link:  # Premier élément sélectionné
+            if not self.start_link:
+                self.start_link = item[0]
+                print(self.start_link)
+            else:
+                self.end_link = item[0]
+                if self.ctrl_pressed:
+                    x1, y1 = self.canvas.coords(self.start_link)
+                    x2, y2 = self.canvas.coords(self.end_link)
+                    if abs(x1 - x2) > abs(y1 - y2):
+                        y2 = y1
+                    else:
+                        x2 = x1
+                    # Modifier l'appel de la méthode lien() pour fournir tous les arguments requis
+                    self.lien(self.start_link, self.end_link, 'horizontal' if abs(x1 - x2) > abs(y1 - y2) else 'vertical')
+                    self.start_link = None
+                    print(self.end_link)
+
+    def ctrl_pressed_event(self, event):
+        self.ctrl_pressed = True
+
+    def ctrl_released_event(self, event):
+        self.ctrl_pressed = False
+
+    def ctrl_wheel(self, event):
+        if self.ctrl_pressed:
+            item = self.canvas.find_closest(event.x, event.y)
+            if item:
+                if not self.start_link:
                     self.start_link = item[0]
                     print(self.start_link)
-                else:  # Deuxième élément sélectionné
+                else:
                     self.end_link = item[0]
-                    if self.start_link != self.end_link:  # Vérifier si les éléments sont différents
-                        x1, y1 = self.canvas.coords(self.start_link)
-                        x2, y2 = self.canvas.coords(self.end_link)
-                        if x1 == x2:  # Vérifier si les éléments sont alignés verticalement
-                            self.lien(self.start_link, self.end_link, "vertical")
-                        elif y1 == y2:  # Vérifier si les éléments sont alignés horizontalement
-                            self.lien(self.start_link, self.end_link, "horizontal")
+                    x1, y1 = self.canvas.coords(self.start_link)
+                    x2, y2 = self.canvas.coords(self.end_link)
+                    if abs(x1 - x2) > abs(y1 - y2):
+                        y2 = y1
+                    else:
+                        x2 = x1
+                    line = self.canvas.create_line(x1, y1, x2, y2, fill="black", width=2)
+                    self.links.append(line)
+                    print(self.links)
+                    link_menu = tk.Menu(self.root, tearoff=0)
+                    link_menu.add_command(label="Supprimer", command=lambda: self.delete_link(line))
+                    self.canvas.tag_bind(line, "<Button-3>", lambda event, menu=link_menu: self.affiche_menu_lien(event, menu))
                     self.start_link = None
-                    self.end_link = None
                     print(self.end_link)
+
 
     def lien(self, item1, item2, direction):
         if direction == "vertical":
